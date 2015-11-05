@@ -18,6 +18,7 @@ for city in list_of_cities:
   # Geocode a city to it's coordinates and add that city to geocodes
   geocodes += geolocator.geocode(city.rstrip('\n'))
 
+# Final printout
 if len(cities) > 1:
   total_distance = 0
   print("Success! Your vacation itinerary is:")
