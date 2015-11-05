@@ -3,6 +3,7 @@
 import sys
 import readline
 from geopy.geocoders import Nominatim
+from geopy.distance import vincenty
 
 
 # Assumes that the last arg will by the filename with the cities
@@ -14,9 +15,23 @@ cities, geocodes = [], []
 geolocator = Nominatim()
 for city in list_of_cities:
   cities += [city.rstrip('\n')]
-  # Geocode a city to it's coordinates
-  
-  # add that city to a list of geocoordinates
+  # Geocode a city to it's coordinates and add that city to geocodes
+  geocodes += geolocator.geocode(city.rstrip('\n'))
+
+if len(cities) > 1:
+  total_distance = 0
+  print("Success! Your vacation itinerary is:")
+  for i in range(len(cities) - 1):
+    # Calculations for distance and total distance
+    start = geocodes[i]
+    finish = geocodes[i + 1]
+    distance = vincenty((start.latitude, start.longitude), (finish.latitude, finish.longitude)).miles
+    total_distance += distance
+    # Print statement
+    print("    " + cities[i] + " -> " + cities[i + 1] + ": " + distance + " miles")
+
+print("    Total distance covered in your trip: " + total_distance + " miles")
+
 
 
 
